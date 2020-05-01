@@ -2,11 +2,11 @@ import React from "react";
 
 import "./Cell.scss";
 
-const Cell = () => {
+const Cell = (props) => {
   return (
-    <main class="">
-      
-    </main>
+    <div className="cell">
+      <span>{props.value}</span>
+    </div>
   );
 };
 

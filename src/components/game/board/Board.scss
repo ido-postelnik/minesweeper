@@ -2,6 +2,13 @@
 @import '../../../styles/_layout.scss';
 
 .board{
-  border: 1px solid black;
-  // height: 80%;
+  border: 1px solid $dark-grey;
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+
+  &-row{
+    display: flex;
+    flex: auto;
+  }
 }

@@ -1,6 +1,13 @@
 @import '../../../styles/_colors.scss';
 @import '../../../styles/_layout.scss';
 
-.main{
-
+.cell{
+  border: 1px solid $dark-grey;
+  min-width: 10px;
+  min-height: 20px;
+  flex: auto;
+  margin: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
