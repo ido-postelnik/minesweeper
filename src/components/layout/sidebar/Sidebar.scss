@@ -1,0 +1,43 @@
+@import '../../../styles/_colors.scss';
+@import '../../../styles/_layout.scss';
+
+.sidebar{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: $sidebar-width;
+  background-color: $light-grey;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .logo{
+    height: 120px;
+    background-color: $dark-grey;
+    color: $white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img{
+      height: 50px;
+      width: 50px;  
+    }
+
+    h1{
+      font-weight: 300;
+    }
+  }
+
+  .game-settings{
+    height: 100%;
+  }
+
+  .more-actions{
+    height: 200px;
+    border-top: 1px solid $dark-grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

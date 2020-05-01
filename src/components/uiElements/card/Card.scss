@@ -1,0 +1,18 @@
+@import '../../../styles/_colors.scss';
+@import '../../../styles/_layout.scss';
+
+.card{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 150px;
+
+  &-content{
+    font-size: 2rem;
+  }
+
+  &-label{
+    font-size: 1rem;
+    font-weight: 400;
+  }
+}
