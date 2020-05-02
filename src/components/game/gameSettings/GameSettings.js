@@ -1,12 +1,16 @@
-import React , { useCallback, useReducer } from "react";
+import React, { useCallback, useReducer, useContext } from "react";
 
 import Input from '../../uiElements/input/Input';
 import Button from '../../uiElements/button/Button';
+import { GameContext } from '../../../shared/context/game-context';
 import {
   VALIDATOR_MIN,
   VALIDATOR_MAX,
 } from "../../../shared/utils/validators";
 import {
+  BOARD_WIDTH_INIT, 
+  BOARD_HEIGHT_INIT, 
+  BOARD_MINES_INIT,
   MIN_BOARD_WIDTH,
   MAX_BOARD_WIDTH,
   MIN_BOARD_HEIGHT,
@@ -18,7 +22,7 @@ const formReducer = (state, action) => {
   switch (action.type) {
     case "INPUT_CHANGE":
       let formIsValid = true;
-      console.log("inside formReducer");
+      
       // inputId => width / height / mines
       for (const inputId in state.inputs) {
         if (!state.inputs[inputId]) {
@@ -72,24 +76,24 @@ const formReducer = (state, action) => {
   }
 };
 
-const widthInit  = 10;
-const heightInit = 8;
-const minesInit  = 5;
 let maxMines;   
 
 const GameSettings = () => {
+  const gameContext = useContext(GameContext);
+  // debugger;
+
   const [formState, dispatch] = useReducer(formReducer, {
     inputs: {
       width: {
-        value: widthInit,
+        value: BOARD_WIDTH_INIT,
         isValid: true,
       },
       height: {
-        value: heightInit,
+        value: BOARD_HEIGHT_INIT,
         isValid: true,
       },
       mines: {
-        value: minesInit,
+        value: BOARD_MINES_INIT,
         isValid: true,
       },
     },
@@ -139,6 +143,13 @@ const GameSettings = () => {
 
   const startNewGameHandler = (event) => {
     event.preventDefault();
+    // debugger;
+
+    gameContext.onStartNewGame({
+      width: formState.inputs.width.value,
+      height: formState.inputs.height.value,
+      mines: formState.inputs.mines.value,
+    });
 
     console.log("Form inputs: ", formState.inputs);
   };

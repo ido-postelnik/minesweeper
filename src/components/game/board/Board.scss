@@ -1,6 +1,7 @@
 @import '../../../styles/_colors.scss';
 
 .board{
+  overflow: auto;
   border: 1px solid $dark-grey;
   display: flex;
   flex-direction: column;
