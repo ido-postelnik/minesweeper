@@ -15,17 +15,16 @@ const DUMMY_BOARD = [
 
 const Board = () => {
   return (
-    <div class="board">
+    <div className="board">
       {DUMMY_BOARD.map((row) => {
         return (
-          <div className="board-row">
+          <div className="board-row" key={row}>
             {row.map((col) => {
-              return <Cell value={col} className="cell"></Cell>;
+              return <Cell value={col} key={col} className="cell"></Cell>;
             })}
           </div>
         );
       })}
-      
     </div>
   );
 };

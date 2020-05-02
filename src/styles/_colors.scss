@@ -1,10 +1,18 @@
 // Colors (Based on Material Design color palettes)
 // https://material.io/design/color/the-color-system.html#tools-for-picking-colors
+
+$blue: #42A5F5;
 $green: #66BB6A;
 $red: #EF5350;
-$blue: #42A5F5;
 $yellow: #FFEE58;
-$light-grey: #eceff1;
-$dark-grey: #37474F;
+$grey: #b0bec5;
 $white: white;
 $black: black;
+
+// Light palette
+$light-grey: #eceff1;
+
+// Dark palette
+$dark-blue: #1976d2;
+$dark-green: #4caf50;
+$dark-grey: #37474F;
