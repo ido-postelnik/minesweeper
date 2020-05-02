@@ -1,21 +1,8 @@
 import React from "react";
 
 import { randomInt } from "../../../shared/utils/utils";
-import Cell from '../cell/Cell';
+import { Cell, MakeCell } from '../cell/Cell';
 import "./Board.scss";
-
-// todo - should MakeCell be somewhere else?
-function MakeCell(row, col, isMined) {
-  this.row               = row;
-  this.col               = col;
-  this.isMined           = isMined;
-  this.neighbourHasBombs = 0; // todo - needed?
-  this.isFlagged         = false;
-  this.isRevealed        = false;
-  this.onCellClick       = () => {
-    debugger;
-  };
-};
 
 const Board = (props) => {
   //#region Main functionlity
@@ -27,7 +14,8 @@ const Board = (props) => {
       retVal.push([]);
       for (let col = 0; col < width; col++) {
         let cell = new MakeCell(row, col, minesLocation[row][col]);
-        retVal[row][col] = `${cell.isMined ? cell.isMined : ''}`;
+        retVal[row][col] = cell;
+        // retVal[row][col] = `${cell.isMined ? cell.isMined : ''}`;
         // retVal[row][col] = `${cell.row} = ${cell.col}`;
       }
     }
@@ -59,11 +47,22 @@ const Board = (props) => {
     }
     return retVal;
   };
+
+  const cellClickHandler = (cell, isShiftPressed) => {
+    debugger;
+    // Call onCellClick function that inside cell - to do inner cell stuff
+    cell.onCellClick(isShiftPressed);
+
+    // logic for the entire board
+    // like updating the steps and the remaining flags
+  };
+
   //#endregion
   
   //#region Init game
   const { width, height, mines } = props.gameSettings;
   const BOARD = createBoard(width, height, mines);
+
   //#endregion
 
   return (
@@ -78,9 +77,10 @@ const Board = (props) => {
             {row.map((col, colIndex) => {
               return (
                 <Cell
-                  value={col}
-                  key={`${rowIndex}-${colIndex}`}
                   className="cell"
+                  data={col}
+                  onCellEvent={cellClickHandler}
+                  key={`${rowIndex}-${colIndex}`}
                 ></Cell>
               );
             })}
