@@ -3,13 +3,15 @@ import React, { useReducer, useEffect } from "react";
 import { validate } from '../../../shared/utils/validators';
 import "./Input.scss";
 
+// Manage the input state - value and isValid
 const inputReducer = (state, action) => {
   switch (action.type) {
     case "CHANGE":
+      // The new state that will be returned 
       return {
-        ...state,
-        value: action.val,
-        isValid: validate(action.val, action.validators),
+        ...state, // the old state properties (if there are more than just value and isValid)
+        value: action.val, // overding value property
+        isValid: validate(action.val, action.validators), // overding isValid property
       };
     case "TOUCH":
       return {
@@ -23,29 +25,39 @@ const inputReducer = (state, action) => {
 
 const Input = (props) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
-    value: props.initialValue || "",
+    value: props.initialValue || '',
     isTouched: false,
     isValid: props.initialValid || false,
   });
 
-  const { id, onInput }    = props;
-  const { value, isValid } = inputState;
 
+  // useEffect runs logic when the input value change or input validity change
+  // gets array of dependencies that should trigger the function
+  const { id, onInput }    = props;
+  const { value, isValid } = inputState;  
   useEffect(() => {
     onInput(id, value, isValid);
   }, [id, value, isValid, onInput]);
 
+
   const changeHandler = (event) => {
+    // Dispatching the action
+
+    let parsedValue =
+      props.type === "number" && event.target.value > 0
+        ? parseInt(event.target.value)
+        : event.target.value;
+ 
     dispatch({
       type: "CHANGE",
-      val: event.target.value,
+      val: parsedValue,
       validators: props.validators,
     });
   };
 
   const touchHandler = () => {
     dispatch({
-      type: "TOUCH"
+      type: 'TOUCH'
     });
   };
 
@@ -55,9 +67,7 @@ const Input = (props) => {
         {props.label}
       </label>
       <input
-        className={`input ${
-          !inputState.isValid && inputState.isTouched ? "border-red-400" : ""
-        }`}
+        className="input"
         id={props.id}
         type={props.type}
         placeholder={props.placeholder}

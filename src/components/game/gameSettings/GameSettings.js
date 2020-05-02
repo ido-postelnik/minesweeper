@@ -1,9 +1,8 @@
-import React from "react";
+import React , { useCallback, useReducer } from "react";
 
 import Input from '../../uiElements/input/Input';
 import Button from '../../uiElements/button/Button';
 import {
-  VALIDATOR_REQUIRE,
   VALIDATOR_MIN,
   VALIDATOR_MAX,
 } from "../../../shared/utils/validators";
@@ -13,17 +12,74 @@ import {
   MIN_BOARD_HEIGHT,
   MAX_BOARD_HEIGHT
 } from "../../../shared/utils/constants";
-import { useForm } from '../../../shared/hooks/form-hook';
 import "./GameSettings.scss";
 
-const GameSettings = () => {
-  const widthInit  = 10;
-  const heightInit = 10;
-  const minesInit  = 5;
-  let maxMines = widthInit * heightInit;
+const formReducer = (state, action) => {
+  switch (action.type) {
+    case "INPUT_CHANGE":
+      let formIsValid = true;
+      console.log("inside formReducer");
+      // inputId => width / height / mines
+      for (const inputId in state.inputs) {
+        if (!state.inputs[inputId]) {
+          continue;
+        }
+        if (inputId === action.inputId) {
+          formIsValid = formIsValid && action.isValid;
+        } else {
+          formIsValid = formIsValid && state.inputs[inputId].isValid;
+        }
+      }
+      
+      // Calculate max mines number
+      if(action.inputId === 'width') {
+        maxMines = action.value * state.inputs.height.value;
+      } 
+      else if (action.inputId === 'height') {
+        maxMines = action.value * state.inputs.width.value;
+      }
 
-  const [formState, inputHandler, setFormData] = useForm(
-    {
+      // Check validity of mines when "width" or "height" got changed
+      // todo - this logic needs to trigger the validate functions for the mines input
+      // 1st option - add error message also here..
+      // 2nd option - do all the validating here and not in the Input component
+      // debugger;
+      if(action.inputId === 'width' || action.inputId === 'height') {
+        if (state.inputs.mines.value > maxMines) {
+          state.inputs.mines.isValid = false;
+          formIsValid = false;
+        }
+        else {
+          state.inputs.mines.isValid = true;
+          formIsValid = true;
+        }
+      }
+
+      return {
+        ...state,
+        inputs: {
+          ...state.inputs,
+          // overding the state of the spesific input we changed
+          [action.inputId]: {
+            value: action.value,
+            isValid: action.isValid,
+          },
+        },
+        isValid: formIsValid,
+      };
+    default:
+      return state;
+  }
+};
+
+const widthInit  = 10;
+const heightInit = 8;
+const minesInit  = 5;
+let maxMines;   
+
+const GameSettings = () => {
+  const [formState, dispatch] = useReducer(formReducer, {
+    inputs: {
       width: {
         value: widthInit,
         isValid: true,
@@ -37,46 +93,55 @@ const GameSettings = () => {
         isValid: true,
       },
     },
-    false
-  );
+    isValid: true
+  });
 
 
+  const inputHandler = useCallback((id, value, isValid) => {
+    dispatch({
+      type: "INPUT_CHANGE",
+      value: value,
+      isValid: isValid,
+      inputId: id,
+    });
+  }, []);
+
+  // Width input handler
+  // const widthInputHandler = useCallback((id, value, isValid) => {
+  //   debugger;
+  //   dispatch({
+  //     type: "INPUT_CHANGE",
+  //     value: value,
+  //     isValid: isValid,
+  //     inputId: id,
+  //   });
+  // }, []);
+
+  // Height input handler
+  // const heightInputHandler = useCallback((id, value, isValid) => {
+  //   dispatch({
+  //     type: "INPUT_CHANGE",
+  //     value: value,
+  //     isValid: isValid,
+  //     inputId: id,
+  //   });
+  // }, []);
+
+  // Mines input handler
+  // const minesInputHandler = useCallback((id, value, isValid) => {
+  //   dispatch({
+  //     type: "INPUT_CHANGE",
+  //     value: value,
+  //     isValid: isValid,
+  //     inputId: id,
+  //   });
+  // }, []);
 
   const startNewGameHandler = (event) => {
     event.preventDefault();
 
-    console.log('Form inputs: ', formState.inputs);
+    console.log("Form inputs: ", formState.inputs);
   };
-
-  // useEffect(() => {
-  //   // identifiedItem should come from the BE
-  //   const identifiedItem = {
-  //     id: "2",
-  //     name: "BBB",
-  //     description: "What an amazing item B",
-  //     image:
-  //       "https://cdn1.brandability.co.za/1970/01/21130944/Non-Woven-Shopper-Bag-Royal-Blue.jpg",
-  //     owner: "1",
-  //   };
-
-  //   if (itemId != null && identifiedItem != null) {
-  //     setFormData(
-  //       {
-  //         name: {
-  //           value: identifiedItem.name,
-  //           isValid: true,
-  //         },
-  //         description: {
-  //           value: identifiedItem.description,
-  //           isValid: true,
-  //         },
-  //       },
-  //       true
-  //     );
-  //   }
-
-  //   dataArrivedHanler(); // I do this in order to re-render the component after data has "arrived" asyncronaslly
-  // }, [setFormData, itemId]);
 
   return (
     <div className="game-settings p-x-10 p-y-10">
@@ -117,8 +182,8 @@ const GameSettings = () => {
           id="mines"
           type="number"
           label="Mines number"
-          validators={[VALIDATOR_MIN(0), VALIDATOR_MAX(maxMines)]}
-          errorText={`Please enter a number between 0 to ${maxMines}`}
+          validators={[VALIDATOR_MIN(1), VALIDATOR_MAX(maxMines)]}
+          errorText={`Please enter a number between 1 to ${maxMines}`}
           onInput={inputHandler}
           initialValue={formState.inputs.mines.value}
           initialValid={formState.inputs.mines.isValid}

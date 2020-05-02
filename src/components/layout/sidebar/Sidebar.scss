@@ -1,31 +1,37 @@
 @import '../../../styles/_colors.scss';
 @import '../../../styles/_layout.scss';
+@import '../../../styles/_fonts.scss';
 
 .sidebar{
   position: fixed;
   top: 0;
   bottom: 0;
   width: $sidebar-width;
+  overflow-y: auto;
   background-color: $light-grey;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  
 
   .logo{
     height: 120px;
     background-color: $dark-grey;
     color: $white;
     display: flex;
+    // flex-direction: column;
     justify-content: center;
     align-items: center;
 
     img{
-      height: 50px;
-      width: 50px;  
+      height: 45px;
+      width: 45px;  
     }
 
     h1{
-      font-weight: 300;
+      font-weight: 400;
+      font-size: 1.8rem;
+      font-family: 'Audiowide';
     }
   }
 
