@@ -6,7 +6,7 @@ import { GameContext } from '../../../shared/context/game-context';
 import {
   VALIDATOR_MIN,
   VALIDATOR_MAX,
-} from "../../../shared/utils/validators";
+} from '../../../shared/utils/validators';
 import {
   BOARD_WIDTH_INIT, 
   BOARD_HEIGHT_INIT, 
@@ -15,7 +15,8 @@ import {
   MAX_BOARD_WIDTH,
   MIN_BOARD_HEIGHT,
   MAX_BOARD_HEIGHT
-} from "../../../shared/utils/constants";
+} from '../../../shared/utils/constants';
+import { setMinesLocation } from "../../../shared/utils/utils";
 import "./GameSettings.scss";
 
 const formReducer = (state, action) => {
@@ -100,7 +101,6 @@ const GameSettings = () => {
     isValid: true
   });
 
-
   const inputHandler = useCallback((id, value, isValid) => {
     dispatch({
       type: "INPUT_CHANGE",
@@ -143,12 +143,16 @@ const GameSettings = () => {
 
   const startNewGameHandler = (event) => {
     event.preventDefault();
-    // debugger;
+
+    let width = formState.inputs.width.value;
+    let height = formState.inputs.height.value;
+    let mines = formState.inputs.mines.value;
 
     gameContext.onStartNewGame({
-      width: formState.inputs.width.value,
-      height: formState.inputs.height.value,
-      mines: formState.inputs.mines.value,
+      width,
+      height,
+      mines,
+      minesLocation: setMinesLocation(width, height, mines),
     });
 
     console.log("Form inputs: ", formState.inputs);

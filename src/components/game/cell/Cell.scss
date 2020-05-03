@@ -2,6 +2,7 @@
 
 .cell{
   border: 1px solid $dark-grey;
+  width: 100%;
   min-width: 10px;
   min-height: 20px;
   flex: auto;
@@ -10,4 +11,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  img{
+    max-width: 50%;
+    max-height: 80px;
+  }
 }

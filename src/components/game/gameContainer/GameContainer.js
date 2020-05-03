@@ -6,8 +6,9 @@ import { GameContext } from '../../../shared/context/game-context';
 import "./GameContainer.scss";
 
 const GameContainer = () => {
+
   const gameContext = useContext(GameContext);
-  // debugger;
+
   return (
     <div className="game-container">
       {/* {Object.keys(gameContext.gameSettings).map((item) => (
