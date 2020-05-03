@@ -5,8 +5,6 @@ import Card from '../../uiElements/Card/Card';
 import "./ScorePanel.scss";
 
 const ScorePanel = (props) => {
-  // debugger;
-
   return (
     <div className="score-panel">
       {/* <StopWatch></StopWatch> */}

@@ -3,13 +3,6 @@ import { createContext } from 'react';
 export const GameContext = createContext({
   gameSettings: {},
   onStartNewGame: () => {},
+  isSupermanMode: false,
+  onSupermanMode: () => { }
 });
-
-// export const GameContext = createContext({
-//   gameSettings: {
-//     width: 1,
-//     height: 2,
-//     mines: 3,
-//   },
-//   onStartNewGame: () => {}
-// });

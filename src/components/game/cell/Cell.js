@@ -14,6 +14,7 @@ const Cell = (props) => {
   return (
     <div className={`cell ${props.isRevealed && 'is-revealed'}`} onClick={cellEventHandler}>
       {props.isFlagged ? <img src={FlagImage} alt="Flag" /> : props.minedNeighboursAmount > 0 && props.isRevealed ? <span className="mined-neighbours">{props.minedNeighboursAmount}</span> : ''}
+      {props.isSupermanMode && props.isMined ? <img src={MineImage} alt="Flag" /> : ''}
       {/* {props.isMined ? <img src={MineImage} alt="Flag" /> : ''} */}
       {/* {props.minedNeighboursAmount > 0 ? <span className="mined-neighbours">{props.minedNeighboursAmount}</span> : ''} */}
     </div>
@@ -27,6 +28,7 @@ function MakeCell(row, col, isMined) {
   this.minedNeighboursAmount = 0;
   this.isFlagged             = false;
   this.isRevealed            = false;
+  this.isSupermanMode        = false;
 };
 
 export { Cell, MakeCell };

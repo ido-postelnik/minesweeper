@@ -1,12 +1,15 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useCallback, useState, useContext } from "react";
 
-import { getNeighboursCoordinates } from '../../../shared/utils/utils';
 import { Cell, MakeCell } from "../Cell/Cell";
+import { getNeighboursCoordinates } from '../../../shared/utils/utils';
+import { GameContext } from '../../../shared/context/game-context';
 import "./Board.scss";
 
 let minedFlagsCounter;
 
 const Board = (props) => {
+  const {isSupermanMode} = useContext(GameContext);
+
   const [board, setBoard] = useState([]);
 
   //#region Init functionlity
@@ -45,7 +48,6 @@ const Board = (props) => {
 
       if (isFlagged === true) {
         updatedBoard[row][col].isFlagged = !board[row][col].isFlagged;
-        // debugger;
         props.onFlagEvent(1);
       }
       else {
@@ -93,14 +95,11 @@ const Board = (props) => {
             let queue = [startingCell];
             
             while (queue.length > 0) {
-              // debugger;
               const cell = queue.shift(); 
 
               if (updatedBoard[cell.row][cell.col].isFlagged === false) {
-                debugger;
                 updatedBoard[cell.row][cell.col].isRevealed = true; // visited
               }
-              // updatedBoard = setIsRevealed(updatedBoard, cell.row, cell.col);
 
               let neighboursCoordinates = getNeighboursCoordinates(cell.row, cell.col, width, height);
               let neighbourRow;
@@ -120,10 +119,8 @@ const Board = (props) => {
                 }
 
                 if(updatedBoard[neighbourRow][neighbourCol].isFlagged === false) {
-                  debugger;
                   updatedBoard[neighbourRow][neighbourCol].isRevealed = true; // visited
                 } 
-                // updatedBoard = setIsRevealed(updatedBoard, neighbourRow, neighbourCol);
 
               });
             }
@@ -183,6 +180,7 @@ const Board = (props) => {
                   isRevealed={cell.isRevealed}
                   minedNeighboursAmount={cell.minedNeighboursAmount}
                   onCellEvent={cellClickHandler}
+                  isSupermanMode={isSupermanMode}
                 ></Cell>
               );
             })}

@@ -12,7 +12,7 @@ const GameContainer = () => {
   useEffect(() => {
     setSteps(0);
     setRemainingFlags(gameContext.gameSettings.mines)
-  }, [gameContext])
+  }, [gameContext.gameSettings])
 
   const [steps, setSteps] = useState(0);
   const [remainingFlags, setRemainingFlags] = useState(gameContext.gameSettings.mines);
@@ -53,6 +53,8 @@ const GameContainer = () => {
       mines,
       minesLocation: setMinesLocation(width, height, mines),
     });
+
+    gameContext.onSupermanMode(false);
   };
 
   return (

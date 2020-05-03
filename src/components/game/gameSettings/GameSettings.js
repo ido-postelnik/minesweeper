@@ -62,8 +62,7 @@ let maxMines;
 
 const GameSettings = () => {
   const gameContext = useContext(GameContext);
-  // debugger;
-
+  
   const [formState, dispatch] = useReducer(formReducer, {
     inputs: {
       width: {
@@ -117,6 +116,8 @@ const GameSettings = () => {
     let width = formState.inputs.width.value;
     let height = formState.inputs.height.value;
     let mines = formState.inputs.mines.value;
+
+    gameContext.onSupermanMode(false);
 
     gameContext.onStartNewGame({
       width,
@@ -178,7 +179,7 @@ const GameSettings = () => {
 
         {/* Submit */}
         <Button
-          className="success m-auto m-t-15"
+          className="success m-auto m-t-5"
           type="submit"
           disabled={!formState.isValid}
         >

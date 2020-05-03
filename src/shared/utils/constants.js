@@ -1,6 +1,6 @@
 // Board init values
-export const BOARD_WIDTH_INIT = 12;
-export const BOARD_HEIGHT_INIT = 4;
+export const BOARD_WIDTH_INIT = 10;
+export const BOARD_HEIGHT_INIT = 6;
 export const BOARD_MINES_INIT = 6;
 
 // Board range

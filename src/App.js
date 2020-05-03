@@ -20,11 +20,20 @@ function App() {
     setGameSettings(obj);
   }, []);
 
+
+  const [isSumermanMode, setIsSupermanMode] = useState(false);
+
+  const onSupermanMode = () => {
+    setIsSupermanMode(!isSumermanMode);
+  };
+
   return (
     <GameContext.Provider
       value={{
         gameSettings: gameSettings,
         onStartNewGame: onStartNewGame,
+        isSupermanMode: isSumermanMode,
+        onSupermanMode: onSupermanMode
       }}
     >
       <div className="app">

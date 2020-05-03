@@ -40,9 +40,36 @@
 
   .more-actions{
     height: 200px;
-    border-top: 1px solid $dark-grey;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: $dark-blue;
+
+    .superman-container{
+      height: 100px;
+      // display: flex;
+      position: relative;
+
+      .superman-button{
+        cursor: pointer;
+        height: 80%;
+        transition: height 0.2s ease;
+
+        &:hover{
+          height: 83%;
+        }
+      }
+
+      .is-superman-mode{
+        position: absolute;
+        top: 45px;
+        right: 0;
+        font-weight: 500;
+        font-size: 2rem;
+        color: $dark-grey;
+      }
+
+    }
   }
 }
