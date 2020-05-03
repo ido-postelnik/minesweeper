@@ -31,4 +31,8 @@
   .mined-neighbours{
     font-size: 1.5rem;
   }
+
+  &.is-revealed{
+    background-color: $yellow;
+  }
 }

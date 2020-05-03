@@ -47,7 +47,6 @@ const GameContainer = () => {
 
   return (
     <div className="game-container">
-      ))} */}
       <ScorePanel className="score-panel" steps={steps} remainingFlags={remainingFlags}></ScorePanel>
       <Board gameSettings={gameContext.gameSettings} onStepEvent={stepsHandler} onFlagEvent={remainingFlagsHandler} onGameOver={lossHandler} remainingFlags={remainingFlags}></Board>
     </div>

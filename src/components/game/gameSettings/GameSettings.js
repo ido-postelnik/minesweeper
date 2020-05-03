@@ -154,8 +154,6 @@ const GameSettings = () => {
       mines,
       minesLocation: setMinesLocation(width, height, mines),
     });
-
-    // console.log("Form inputs: ", formState.inputs);
   };
 
   return (

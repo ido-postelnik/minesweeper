@@ -1,5 +1,6 @@
 import React, { useEffect, useCallback, useState } from "react";
 
+import { getNeighboursCoordinates } from '../../../shared/utils/utils';
 import { Cell, MakeCell } from "../Cell/Cell";
 import "./Board.scss";
 
@@ -51,25 +52,51 @@ const Board = (props) => {
 
     }
     else {
-      // debugger;
-      // only if the cell is not flagged
-      if (!updatedBoard[row][col].isFlagged === true) {
+      // Do logic only if the cell is not flagged and it does not revealed yet
+      if (updatedBoard[row][col].isFlagged === false && updatedBoard[row][col].isRevealed === false) {
         if (updatedBoard[row][col].isMined === true) {
           // You lost
           props.onGameOver();
         }
         else {
-          props.onStepEvent();
-
           let minedNeighboursAmount = getMinedNeighboursAmount(row, col);
+          updatedBoard[row][col].isRevealed = true;
           if (minedNeighboursAmount > 0) {
             updatedBoard[row][col].minedNeighboursAmount = minedNeighboursAmount;
+            
           }
           else {
             // No Neighbours with mine - let the magic begin! - based on BFS
-          }
-        }
+            let startingCell = updatedBoard[row][col];
+            // let visited = [];
+            let queue = [startingCell];
+            
+            while (queue.length > 0) {
+              // debugger;
+              const cell = queue.shift(); 
+              updatedBoard[cell.row][cell.col].isRevealed = true; // visited
+              let neighboursCoordinates = getNeighboursCoordinates(cell.row, cell.col, width, height);
+              let neighbourRow;
+              let neighbourCol;
+              let minedNeighboursAmount
+              neighboursCoordinates.forEach(neighbour => {
+                neighbourRow = neighbour[0]; // row
+                neighbourCol = neighbour[1]; // col
+                minedNeighboursAmount = getMinedNeighboursAmount(neighbourRow, neighbourCol);
 
+                if (updatedBoard[neighbourRow][neighbourCol].isRevealed !== true && minedNeighboursAmount === 0) {
+                  queue.push(board[neighbourRow][neighbourCol]);
+                }
+                else {
+                  updatedBoard[neighbourRow][neighbourCol].minedNeighboursAmount = minedNeighboursAmount;
+                }
+                updatedBoard[neighbourRow][neighbourCol].isRevealed = true; // visited
+              });
+            }
+          }
+
+          props.onStepEvent(); // Increase steps counter
+        }
       }
     }
 
@@ -77,15 +104,15 @@ const Board = (props) => {
   };
 
   const getMinedNeighboursAmount = (row, col) => {
-    let neighboursCoordinates = getNeighboursCoordinates(row, col);
+    let neighboursCoordinates = getNeighboursCoordinates(row, col, width, height);
     let retVal = 0;
 
     if (neighboursCoordinates.length > 0) {
       let neighbourRow;
       let neighbourCol;
       neighboursCoordinates.forEach(neighbour => {
-        neighbourRow = neighbour[0];
-        neighbourCol = neighbour[1];
+        neighbourRow = neighbour[0]; // row
+        neighbourCol = neighbour[1]; // col
 
         if (board[neighbourRow][neighbourCol].isMined === true) {
           retVal++;
@@ -96,27 +123,8 @@ const Board = (props) => {
     return retVal;
   };
 
-  const getNeighboursCoordinates = (row, col) => {
-    let retVal = [];
-
-    if (row > 0) { retVal.push([row - 1, col]) }                                  // up [row - 1][col]
-    if (row > 0 && col < width - 1) { retVal.push([row - 1, col + 1]) }           // up-right    [row - 1][col + 1]
-    if (col < width - 1) { retVal.push([row, col + 1]) }                          // right       [row][col+1]
-    if (row < height - 1 && col < width - 1) { retVal.push([row + 1, col + 1]) }  // right-down  [row + 1][col + 1]
-    if (row < height - 1) { retVal.push([row + 1, col]) }                         // down        [row + 1][col]
-    if (row < height - 1 && col > 0) { retVal.push([row + 1, col - 1]) }          // down-left   [row + 1][col - 1]
-    if (col > 0) { retVal.push([row, col - 1]) }                                  // left        [row][col - 1]
-    if (row > 0 && col > 0) { retVal.push([row - 1, col - 1]) }                   // up-left     [row - 1][col - 1]
-
-    return retVal;
-  }
-
   return (
     <div className="board m-b-20">
-      {/* {Object.keys(props.gameSettings).map((item) => (
-        <p>{props.gameSettings[item]}</p>
-      ))} */}
-
       {board.map((row, rowIndex) => {
         return (
           <div className="board-row" key={rowIndex}>
@@ -129,6 +137,7 @@ const Board = (props) => {
                   col={colIndex}
                   isMined={cell.isMined}
                   isFlagged={cell.isFlagged}
+                  isRevealed={cell.isRevealed}
                   minedNeighboursAmount={cell.minedNeighboursAmount}
                   onCellEvent={cellClickHandler}
                 ></Cell>
