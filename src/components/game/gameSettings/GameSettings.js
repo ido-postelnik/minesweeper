@@ -159,9 +159,9 @@ const GameSettings = () => {
   };
 
   return (
-    <div className="game-settings p-x-10 p-y-10">
+    <div className="game-settings p-x-20 p-y-20">
       <h1 className="game-settings-title m-t-0 m-b-10">Game Settings</h1>
-      <form className="game-settings-form p-x-5" onSubmit={startNewGameHandler}>
+      <form className="game-settings-form" onSubmit={startNewGameHandler}>
         {/* Width */}
         <Input
           id="width"

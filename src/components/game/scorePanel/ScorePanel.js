@@ -12,7 +12,7 @@ const ScorePanel = (props) => {
       {/* <StopWatch></StopWatch> */}
       {/* <Card label="Time" content="10:10" ></Card> */}
       <Card label="Steps" content={props.steps}></Card>
-      <Card label="Remaining flags" content="5"></Card>
+      <Card label="Remaining flags" content={props.remainingFlags}></Card>
     </div>
   );
 };
