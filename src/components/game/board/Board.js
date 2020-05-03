@@ -26,8 +26,8 @@ const Board = (props) => {
     return retVal;
   }, []);
 
+  // trigger createBoard opun change in one of the dependencies
   const { width, height, minesLocation } = props.gameSettings;
-
   useEffect(() => {
     createBoard(width, height, minesLocation);
   }, [width, height, minesLocation, createBoard]);
@@ -35,12 +35,37 @@ const Board = (props) => {
   //#endregion
 
   const cellClickHandler = (cell, isShiftPressed) => {
-    debugger;
-    // Call onCellClick function that inside cell - to do inner cell stuff
-    // cell.onCellClick(isShiftPressed);
-
     // logic for the entire board
+    let updatedBoard = board;
+    
+    if(isShiftPressed) {
+      debugger;
+      updatedBoard[cell.row][cell.col].isFlagged = !board[cell.row][cell.col].isFlagged;
+      // setBoard(updatedBoard);
+    }
+    else {
+      debugger;
+      // only if the cell is not flagged
+      if (!updatedBoard[cell.row][cell.col].isFlagged) {
+        let minedNeighboursAmount = getMinedNeighboursAmount();
+        if (minedNeighboursAmount > 0) {
+          updatedBoard[cell.row][cell.col].minedNeighboursAmount = minedNeighboursAmount;
+        }
+      }
+    }
+
+    setBoard(updatedBoard);
+
+    props.onPlayerStep();
     // like updating the steps and the remaining flags
+  };
+
+  const getMinedNeighboursAmount = () => {
+    debugger;
+    let retVal = 8;
+
+
+    return retVal;
   };
 
   return (
@@ -52,16 +77,16 @@ const Board = (props) => {
       {board.map((row, rowIndex) => {
         return (
           <div className="board-row" key={rowIndex}>
-            {row.map((col, colIndex) => {
+            {row.map((cell, colIndex) => {
               return (
                 <Cell
                   className="cell"
                   key={`${rowIndex}-${colIndex}`}
                   row={rowIndex}
                   col={colIndex}
-                  isMined={col.isMined}
-                  isFlagged={col.isFlagged}
-                  // data={col}
+                  isMined={cell.isMined}
+                  isFlagged={cell.isFlagged}
+                  minedNeighboursAmount={cell.minedNeighboursAmount}
                   onCellEvent={cellClickHandler}
                 ></Cell>
               );

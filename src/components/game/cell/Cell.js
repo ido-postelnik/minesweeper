@@ -5,6 +5,7 @@ import MineImage from "../../../assets/images/mine.svg";
 import "./Cell.scss";
 
 const Cell = (props) => {
+  debugger;
   const [cell, setCell] = useState({
     row: props.row,
     col: props.col,
@@ -22,40 +23,28 @@ const Cell = (props) => {
   }, [props]);
 
   const cellEventHandler = (event) => {
+    debugger;
     let isShiftPressed = event.shiftKey ? true : false;
 
-    if (isShiftPressed === true) {
-      // debugger;
-      setCell({
-        row: props.row,
-        col: props.col,
-        isMined: props.isMined,
-        isFlagged: !cell.isFlagged,
-      });
-
-    }
-    else {
-      debugger;
-    }
-
-    props.onCellEvent(props.data, isShiftPressed);
+    props.onCellEvent(cell, isShiftPressed);
   };
 
   return (
     <div className="cell" onClick={cellEventHandler}>
-      {cell.isFlagged ? <img src={FlagImage} alt="Flag" /> : ""}
-      {cell.isMined ? <img src={MineImage} alt="Flag" /> : ""}
+      {props.isFlagged ? <img src={FlagImage} alt="Flag" /> : ''}
+      {props.isMined ? <img src={MineImage} alt="Flag" /> : ''}
+      {props.minedNeighboursAmount > 0 ? <span>{props.minedNeighboursAmount}</span> : ''}
     </div>
   );
 };
 
 function MakeCell(row, col, isMined) {
-  this.row               = row;
-  this.col               = col;
-  this.isMined           = isMined;
-  this.neighbourHasBombs = 0; // todo - needed?
-  this.isFlagged         = false;
-  this.isRevealed        = false;
+  this.row                   = row;
+  this.col                   = col;
+  this.isMined               = isMined;
+  this.minedNeighboursAmount = 0;
+  this.isFlagged             = false;
+  this.isRevealed            = false;
   this.onCellClick = (isShiftPressed) => {
     debugger;
     //update cell state
