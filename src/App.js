@@ -20,12 +20,11 @@ function App() {
     setGameSettings(obj);
   }, []);
 
-
   const [isSumermanMode, setIsSupermanMode] = useState(false);
 
-  const onSupermanMode = () => {
-    setIsSupermanMode(!isSumermanMode);
-  };
+  const onSupermanMode = useCallback((mode) => {
+    setIsSupermanMode(mode);
+  }, []);
 
   return (
     <GameContext.Provider

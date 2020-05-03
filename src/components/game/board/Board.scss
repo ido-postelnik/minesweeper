@@ -1,15 +1,13 @@
 @import '../../../styles/_colors.scss';
 
-.board{
-  overflow: auto;
-  border: 1px solid $dark-grey;
+.board-wrapper{
   display: flex;
-  flex-direction: column;
-  padding: 2px;
+  overflow: auto;
+  height: calc(100% - 100px);
 
-  &-row{
-    display: flex;
-    height: 100%;
-    min-height: 80px;
+  .board{
+    &-row{
+      display: flex;
+    }
   }
 }

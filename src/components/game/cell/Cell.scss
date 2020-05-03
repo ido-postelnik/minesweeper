@@ -2,9 +2,10 @@
 
 .cell{
   border: 1px solid $dark-grey;
-  width: 100%;
-  min-width: 65px;
-  flex: auto;
+  width: 70px;
+  height: 70px;
+  // min-width: 65px;
+  // flex: auto;
   margin: 2px;
   display: flex;
   justify-content: center;

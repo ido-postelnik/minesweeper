@@ -33,7 +33,7 @@ const GameContainer = () => {
   const lossHandler = () => {
     alert(`😓 Game over.. Let's try again!`);
 
-    startNewGame();
+    // startNewGame();
   };
 
   const gameWinHandler = () => {
@@ -43,6 +43,7 @@ const GameContainer = () => {
   };
 
   const startNewGame = () => {
+    debugger;
     let width = gameContext.gameSettings.width;
     let height = gameContext.gameSettings.height;
     let mines = gameContext.gameSettings.mines;

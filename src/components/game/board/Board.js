@@ -76,6 +76,7 @@ const Board = (props) => {
         if (updatedBoard[row][col].isMined === true) {
           // You lost
           props.onGameOver();
+          // have another state - cell.isGameOver - to show all bombs when game is over (--> can it be the same as supermanMode - differnt name?)
         }
         else {
           let minedNeighboursAmount = getMinedNeighboursAmount(row, col);
@@ -164,29 +165,31 @@ const Board = (props) => {
   };
 
   return (
-    <div className="board m-b-20">
-      {board.map((row, rowIndex) => {
-        return (
-          <div className="board-row" key={rowIndex}>
-            {row.map((cell, colIndex) => {
-              return (
-                <Cell
-                  className="cell"
-                  key={`${rowIndex}-${colIndex}`}
-                  row={rowIndex}
-                  col={colIndex}
-                  isMined={cell.isMined}
-                  isFlagged={cell.isFlagged}
-                  isRevealed={cell.isRevealed}
-                  minedNeighboursAmount={cell.minedNeighboursAmount}
-                  onCellEvent={cellClickHandler}
-                  isSupermanMode={isSupermanMode}
-                ></Cell>
-              );
-            })}
-          </div>
-        );
-      })}
+    <div className="board-wrapper m-b-20">
+      <div className="board m-auto">      
+        {board.map((row, rowIndex) => {
+          return (
+            <div className="board-row" key={rowIndex}>
+              {row.map((cell, colIndex) => {
+                return (
+                  <Cell
+                    className="cell"
+                    key={`${rowIndex}-${colIndex}`}
+                    row={rowIndex}
+                    col={colIndex}
+                    isMined={cell.isMined}
+                    isFlagged={cell.isFlagged}
+                    isRevealed={cell.isRevealed}
+                    minedNeighboursAmount={cell.minedNeighboursAmount}
+                    onCellEvent={cellClickHandler}
+                    isSupermanMode={isSupermanMode}
+                  ></Cell>
+                );
+              })}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
