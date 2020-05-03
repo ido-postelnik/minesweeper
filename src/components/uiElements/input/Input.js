@@ -1,17 +1,15 @@
 import React, { useReducer, useEffect } from "react";
 
-import { validate } from '../../../shared/utils/validators';
 import "./Input.scss";
 
-// Manage the input state - value and isValid
+// Manage the input state
 const inputReducer = (state, action) => {
   switch (action.type) {
     case "CHANGE":
       // The new state that will be returned 
       return {
-        ...state, // the old state properties (if there are more than just value and isValid)
+        ...state, // the old state properties
         value: action.val, // overding value property
-        isValid: validate(action.val, action.validators), // overding isValid property
       };
     case "TOUCH":
       return {
@@ -26,28 +24,25 @@ const inputReducer = (state, action) => {
 const Input = (props) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
     value: props.initialValue || '',
-    isTouched: false,
-    isValid: props.initialValid || false,
+    isTouched: false
   });
-
 
   // useEffect runs logic when the input value change or input validity change
   // gets array of dependencies that should trigger the function
-  const { id, onInput }    = props;
-  const { value, isValid } = inputState;  
+  const { id, onInput } = props;
+  const { value } = inputState;
   useEffect(() => {
-    onInput(id, value, isValid);
-  }, [id, value, isValid, onInput]);
-
+    onInput(id, value);
+  }, [id, value, onInput]);
 
   const changeHandler = (event) => {
     // Dispatching the action
 
     let parsedValue =
-      props.type === "number" && event.target.value > 0
+      props.type === 'number' && event.target.value > 0
         ? parseInt(event.target.value)
         : event.target.value;
- 
+
     dispatch({
       type: "CHANGE",
       val: parsedValue,
@@ -62,7 +57,7 @@ const Input = (props) => {
   };
 
   return (
-    <div className="input-container m-b-10">
+    <div className="input-container">
       <label htmlFor={props.id} className="label m-b-5">
         {props.label}
       </label>
@@ -75,9 +70,6 @@ const Input = (props) => {
         onBlur={touchHandler}
         value={inputState.value}
       />
-      {!inputState.isValid && inputState.isTouched && (
-        <p className="error-text m-t-5">{props.errorText}</p>
-      )}
     </div>
   );
 };

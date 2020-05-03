@@ -1,10 +1,19 @@
+@import '../../../styles/_colors.scss';
+
 .game-settings{
   &-title{
     font-size: 1.3rem;
     font-weight: 400;
   }
 
-  &-form{
-    
+  .form{
+    .input-contianer{
+      height: 85px;
+
+      .error-text{
+        color: $red;
+        font-size: 0.8rem;
+      }
+    }
   }
 }
