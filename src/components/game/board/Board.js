@@ -1,6 +1,6 @@
 import React, { useEffect, useCallback, useState } from "react";
 
-import { Cell, MakeCell } from '../cell/Cell';
+import { Cell, MakeCell } from "../Cell/Cell";
 import "./Board.scss";
 
 const Board = (props) => {

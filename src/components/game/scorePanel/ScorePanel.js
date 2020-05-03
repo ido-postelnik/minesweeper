@@ -1,6 +1,6 @@
 import React from "react";
 
-import Card from '../../uiElements/card/Card';
+import Card from "../../uiElements/Card/Card";
 import "./ScorePanel.scss";
 
 const ScorePanel = () => {

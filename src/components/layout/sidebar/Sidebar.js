@@ -1,8 +1,8 @@
 import React from "react";
 
-import GameSettings from "../../game/gameSettings/GameSettings";
-import "./Sidebar.scss";
+import GameSettings from "../../game/GameSettings/GameSettings";
 import LogoImage from "../../../assets/images/minesweeper-logo.png";
+import "./Sidebar.scss";
 
 const Sidebar = () => {
   return (

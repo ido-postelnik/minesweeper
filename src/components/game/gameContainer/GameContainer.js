@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 
-import ScorePanel from '../scorePanel/ScorePanel';
-import Board from '../board/Board';
+import ScorePanel from "../ScorePanel/ScorePanel";
+import Board from "../Board/Board";
 import { GameContext } from '../../../shared/context/game-context';
 import "./GameContainer.scss";
 

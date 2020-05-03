@@ -1,8 +1,9 @@
 import React, { useCallback, useReducer, useContext } from "react";
 
-import Input from '../../uiElements/input/Input';
-import Button from '../../uiElements/button/Button';
+import Input from "../../uiElements/Input/Input";
+import Button from "../../uiElements/Button/Button";
 import { GameContext } from '../../../shared/context/game-context';
+import { setMinesLocation } from "../../../shared/utils/utils";
 import {
   VALIDATOR_MIN,
   VALIDATOR_MAX,
@@ -16,7 +17,6 @@ import {
   MIN_BOARD_HEIGHT,
   MAX_BOARD_HEIGHT
 } from '../../../shared/utils/constants';
-import { setMinesLocation } from "../../../shared/utils/utils";
 import "./GameSettings.scss";
 
 const formReducer = (state, action) => {

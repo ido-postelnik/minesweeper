@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 
-import Sidebar from './components/layout/sidebar/Sidebar';
-import Main from './components/layout/main/Main';
+import Sidebar from "./components/layout/Sidebar/Sidebar";
+import Main from "./components/layout/Main/Main";
 import { GameContext } from './shared/context/game-context';
 import { setMinesLocation } from "./shared/utils/utils";
 import { BOARD_WIDTH_INIT, BOARD_HEIGHT_INIT, BOARD_MINES_INIT } from './shared/utils/constants';

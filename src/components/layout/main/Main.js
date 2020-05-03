@@ -1,6 +1,6 @@
 import React from "react";
 
-import GameContainer from "../../game/gameContainer/GameContainer";
+import GameContainer from "../../game/GameContainer/GameContainer";
 import "./Main.scss";
 
 const Main = () => {
