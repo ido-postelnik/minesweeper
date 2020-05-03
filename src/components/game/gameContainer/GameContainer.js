@@ -18,7 +18,7 @@ const GameContainer = () => {
   const [remainingFlags, setRemainingFlags] = useState(gameContext.gameSettings.mines);
 
   const remainingFlagsHandler = (val) => {
-    if(remainingFlags === 0 && val === -1) {
+    if(remainingFlags === 0 && val === 0) {
       alert('😔 Oh snap, You ran out of flags!');
     }
     else {
@@ -33,6 +33,16 @@ const GameContainer = () => {
   const lossHandler = () => {
     alert(`😓 Game over.. Let's try again!`);
 
+    startNewGame();
+  };
+
+  const gameWinHandler = () => {
+    alert(`✨ Yay! We have a winner! ✨`);
+
+    startNewGame();
+  };
+
+  const startNewGame = () => {
     let width = gameContext.gameSettings.width;
     let height = gameContext.gameSettings.height;
     let mines = gameContext.gameSettings.mines;
@@ -48,7 +58,13 @@ const GameContainer = () => {
   return (
     <div className="game-container">
       <ScorePanel className="score-panel" steps={steps} remainingFlags={remainingFlags}></ScorePanel>
-      <Board gameSettings={gameContext.gameSettings} onStepEvent={stepsHandler} onFlagEvent={remainingFlagsHandler} onGameOver={lossHandler} remainingFlags={remainingFlags}></Board>
+      <Board 
+        gameSettings={gameContext.gameSettings} 
+        onStepEvent={stepsHandler} 
+        onFlagEvent={remainingFlagsHandler} 
+        onGameOver={lossHandler}
+        onGameWin={gameWinHandler}
+        remainingFlags={remainingFlags}></Board>
     </div>
   );
 };

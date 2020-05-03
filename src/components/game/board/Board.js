@@ -4,12 +4,14 @@ import { getNeighboursCoordinates } from '../../../shared/utils/utils';
 import { Cell, MakeCell } from "../Cell/Cell";
 import "./Board.scss";
 
-const Board = (props) => {
+let minedFlagsCounter;
 
+const Board = (props) => {
   const [board, setBoard] = useState([]);
 
   //#region Init functionlity
   const initBoard = useCallback((width, height, minesLocation) => {
+    minedFlagsCounter = 0;
     let retVal = [];
 
     for (let row = 0; row < height; row++) {
@@ -39,17 +41,32 @@ const Board = (props) => {
     
     if(isShiftPressed === true) {
       let isFlagged = updatedBoard[row][col].isFlagged;
+
+
       if (isFlagged === true) {
         updatedBoard[row][col].isFlagged = !board[row][col].isFlagged;
+        // debugger;
         props.onFlagEvent(1);
       }
       else {
-        props.onFlagEvent(-1);
-        if (props.remainingFlags > 0) {
+        // Set cell with flag
+        if (props.remainingFlags === 0) {
+          props.onFlagEvent(0);
+        }
+        if (props.remainingFlags > 0 && updatedBoard[row][col].isRevealed === false) {
           updatedBoard[row][col].isFlagged = !board[row][col].isFlagged;
+          props.onFlagEvent(-1);
+        }
+
+        // Update minedFlagsCounter
+        if (updatedBoard[row][col].isMined === true && board[row][col].isFlagged === true) {
+          minedFlagsCounter = minedFlagsCounter + 1;
+
+          if (minedFlagsCounter === props.gameSettings.mines) {
+            props.onGameWin(); // We have a winner!
+          }
         }
       }
-
     }
     else {
       // Do logic only if the cell is not flagged and it does not revealed yet
@@ -60,7 +77,11 @@ const Board = (props) => {
         }
         else {
           let minedNeighboursAmount = getMinedNeighboursAmount(row, col);
-          updatedBoard[row][col].isRevealed = true;
+          if (updatedBoard[row][col].isFlagged === false) {
+            updatedBoard[row][col].isRevealed = true;
+          }
+          // updatedBoard = setIsRevealed(updatedBoard, row, col);
+
           if (minedNeighboursAmount > 0) {
             updatedBoard[row][col].minedNeighboursAmount = minedNeighboursAmount;
             
@@ -74,23 +95,36 @@ const Board = (props) => {
             while (queue.length > 0) {
               // debugger;
               const cell = queue.shift(); 
-              updatedBoard[cell.row][cell.col].isRevealed = true; // visited
+
+              if (updatedBoard[cell.row][cell.col].isFlagged === false) {
+                debugger;
+                updatedBoard[cell.row][cell.col].isRevealed = true; // visited
+              }
+              // updatedBoard = setIsRevealed(updatedBoard, cell.row, cell.col);
+
               let neighboursCoordinates = getNeighboursCoordinates(cell.row, cell.col, width, height);
               let neighbourRow;
               let neighbourCol;
-              let minedNeighboursAmount
+              let minedNeighboursAmount;
+
               neighboursCoordinates.forEach(neighbour => {
                 neighbourRow = neighbour[0]; // row
                 neighbourCol = neighbour[1]; // col
                 minedNeighboursAmount = getMinedNeighboursAmount(neighbourRow, neighbourCol);
 
-                if (updatedBoard[neighbourRow][neighbourCol].isRevealed !== true && minedNeighboursAmount === 0) {
+                if (updatedBoard[neighbourRow][neighbourCol].isRevealed !== true && minedNeighboursAmount === 0 && updatedBoard[neighbourRow][neighbourCol].isFlagged === false) {
                   queue.push(board[neighbourRow][neighbourCol]);
                 }
                 else {
                   updatedBoard[neighbourRow][neighbourCol].minedNeighboursAmount = minedNeighboursAmount;
                 }
-                updatedBoard[neighbourRow][neighbourCol].isRevealed = true; // visited
+
+                if(updatedBoard[neighbourRow][neighbourCol].isFlagged === false) {
+                  debugger;
+                  updatedBoard[neighbourRow][neighbourCol].isRevealed = true; // visited
+                } 
+                // updatedBoard = setIsRevealed(updatedBoard, neighbourRow, neighbourCol);
+
               });
             }
           }
@@ -102,6 +136,15 @@ const Board = (props) => {
 
     setBoard(updatedBoard);
   };
+
+  // const setIsRevealed = (board, row, col) => {
+  //   if (board[row][col].isFlagged === false) {
+  //     debugger;
+  //     board[row][col].isRevealed = true; // visited
+  //   } 
+  //   // board[row][col].isRevealed = true;
+  //   return board;
+  // };
 
   const getMinedNeighboursAmount = (row, col) => {
     let neighboursCoordinates = getNeighboursCoordinates(row, col, width, height);
