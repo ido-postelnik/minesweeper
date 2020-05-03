@@ -3,15 +3,16 @@
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#9CDD05;}
-	.st1{fill:#2F2E3C;}
-	.st2{fill:#20202B;}
+	.st0{fill:#42A5F5;}
+	.st1{fill:#465A61;}
+	.st2{fill:#3B4A51;}
+	.st3{fill:#1565C0;}
+	.st4{fill:#596C76;}
 </style>
-<path class="st0" d="M174.9,61.2v208.6L417.1,166L174.9,61.2z"/>
-<path class="st1" d="M154,75h30v422h-30V75z"/>
-<path class="st2" d="M169,75h15v422h-15V75z"/>
-<path class="st1" d="M169,0c-24.9,0-45,20.1-45,45c0,24.9,20.1,45,45,45s45-20.1,45-45C214,20.1,193.9,0,169,0z"/>
-<path class="st2" d="M169,90V0c24.9,0,45,20.1,45,45C214,69.9,193.9,90,169,90z"/>
-<path class="st1" d="M94,482h150v30H94V482z"/>
-<path class="st2" d="M169,482h75v30h-75V482z"/>
+<path class="st0" d="M255.3,184.2L204,43.2L0,117.1L97,162l-44.8,96.1L255.3,184.2z"/>
+<path class="st1" d="M383.2,491.5L355,501.7l-99-272.1L179.8,20.2L208,10l48,132L383.2,491.5z"/>
+<path class="st2" d="M383.2,491.5L355,501.7l-99-272.1V142L383.2,491.5z"/>
+<path class="st3" d="M512,117.1L308,43.2l-51.3,140.9l203.2,73.9L415,162L512,117.1z"/>
+<path class="st4" d="M332.2,20.2L256,229.6l-99,272.1l-28.2-10.2L256,142l48-132L332.2,20.2z"/>
+<path class="st1" d="M332.2,20.2L256,229.6V142l48-132L332.2,20.2z"/>
 </svg>

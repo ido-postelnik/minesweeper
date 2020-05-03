@@ -15,7 +15,7 @@
   
 
   .logo{
-    height: 120px;
+    min-height: 90px;
     background-color: $dark-grey;
     color: $white;
     display: flex;
@@ -24,8 +24,7 @@
     align-items: center;
 
     img{
-      height: 45px;
-      width: 45px;  
+      width: 60px;  
     }
 
     h1{
