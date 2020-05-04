@@ -1,9 +1,10 @@
 @import '../../../styles/_colors.scss';
+@import '../../../styles/_layout.scss';
 
 .board-wrapper{
   display: flex;
   overflow: auto;
-  height: calc(100% - 100px);
+  height: calc(100% - #{$header-height});
 
   .board{
     &-row{

@@ -5,7 +5,7 @@ import { getNeighboursCoordinates } from '../../../shared/utils/utils';
 import { GameContext } from '../../../shared/context/game-context';
 import "./Board.scss";
 
-let minedFlagsCounter;
+let minesFlaggedCounter;
 
 const Board = (props) => {
   const {isSupermanMode} = useContext(GameContext);
@@ -14,7 +14,7 @@ const Board = (props) => {
 
   //#region Init functionlity
   const initBoard = useCallback((width, height, minesLocation) => {
-    minedFlagsCounter = 0;
+    minesFlaggedCounter = 0;
     let retVal = [];
 
     for (let row = 0; row < height; row++) {
@@ -45,10 +45,13 @@ const Board = (props) => {
     if(isShiftPressed === true) {
       let isFlagged = updatedBoard[row][col].isFlagged;
 
-
       if (isFlagged === true) {
+        if (updatedBoard[row][col].isMined === true) {
+          minesFlaggedCounter = minesFlaggedCounter - 1;
+        }
+
         updatedBoard[row][col].isFlagged = !board[row][col].isFlagged;
-        props.onFlagEvent(1);
+        props.onFlagEvent(-1);
       }
       else {
         // Set cell with flag
@@ -57,14 +60,14 @@ const Board = (props) => {
         }
         if (props.remainingFlags > 0 && updatedBoard[row][col].isRevealed === false) {
           updatedBoard[row][col].isFlagged = !board[row][col].isFlagged;
-          props.onFlagEvent(-1);
+          props.onFlagEvent(1);
         }
 
-        // Update minedFlagsCounter
+        // Update minesFlaggedCounter
         if (updatedBoard[row][col].isMined === true && board[row][col].isFlagged === true) {
-          minedFlagsCounter = minedFlagsCounter + 1;
+          minesFlaggedCounter = minesFlaggedCounter + 1;
 
-          if (minedFlagsCounter === props.gameSettings.mines) {
+          if (minesFlaggedCounter === props.gameSettings.mines) {
             props.onGameWin(); // We have a winner!
           }
         }
@@ -134,15 +137,6 @@ const Board = (props) => {
 
     setBoard(updatedBoard);
   };
-
-  // const setIsRevealed = (board, row, col) => {
-  //   if (board[row][col].isFlagged === false) {
-  //     debugger;
-  //     board[row][col].isRevealed = true; // visited
-  //   } 
-  //   // board[row][col].isRevealed = true;
-  //   return board;
-  // };
 
   const getMinedNeighboursAmount = (row, col) => {
     let neighboursCoordinates = getNeighboursCoordinates(row, col, width, height);

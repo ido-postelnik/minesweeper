@@ -22,7 +22,7 @@ const GameContainer = () => {
       alert('😔 Oh snap, You ran out of flags!');
     }
     else {
-      setRemainingFlags(remainingFlags + val);
+      setRemainingFlags(remainingFlags - val);
     }
   };
 
