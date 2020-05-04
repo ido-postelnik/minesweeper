@@ -7,7 +7,6 @@ import { setMinesLocation } from "./shared/utils/utils";
 import { BOARD_WIDTH_INIT, BOARD_HEIGHT_INIT, BOARD_MINES_INIT } from './shared/utils/constants';
 import './App.scss';
 
-
 function App() {
   const [gameSettings, setGameSettings] = useState({
     width: BOARD_WIDTH_INIT,
@@ -16,14 +15,15 @@ function App() {
     minesLocation: setMinesLocation(BOARD_WIDTH_INIT, BOARD_HEIGHT_INIT, BOARD_MINES_INIT),
   });
 
-  const onStartNewGame = useCallback((obj) => {
+  const startNewGameHandler = useCallback((obj) => {
     setGameSettings(obj);
   }, []);
 
   const [isSumermanMode, setIsSupermanMode] = useState(false);
   const [isGameLost, setIsLost] = useState(false);
+  const [isFirstMove, setIsFirstMove] = useState(false);
 
-  const onRevealBombs = useCallback((action, shouldReveal) => {
+  const revealBombsHandler = useCallback((action, shouldReveal) => {
     switch (action) {
       case 'GAME_OVER':
         setIsLost(shouldReveal);
@@ -36,14 +36,20 @@ function App() {
     }
   }, []);
 
+  const firstMoveHandler = (val) => {
+    setIsFirstMove(val);
+  };
+
   return (
     <GameContext.Provider
       value={{
         gameSettings: gameSettings,
-        onStartNewGame: onStartNewGame,
         isSupermanMode: isSumermanMode,
         isGameLost: isGameLost,
-        onRevealBombs: onRevealBombs
+        isFirstMove: isFirstMove,
+        onStartNewGame: startNewGameHandler,
+        onRevealBombs: revealBombsHandler,
+        onFirstMove: firstMoveHandler
       }}
     >
       <div className="app">

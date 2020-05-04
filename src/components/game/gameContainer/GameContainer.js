@@ -7,7 +7,7 @@ import { setMinesLocation } from "../../../shared/utils/utils";
 import "./GameContainer.scss";
 
 const GameContainer = () => {
-  const { gameSettings, onRevealBombs, onStartNewGame} = useContext(GameContext);
+  const { gameSettings, onRevealBombs, onStartNewGame, onFirstMove } = useContext(GameContext);
 
   useEffect(() => {
     setSteps(0);
@@ -16,6 +16,7 @@ const GameContainer = () => {
 
   const [steps, setSteps] = useState(0);
   const [remainingFlags, setRemainingFlags] = useState(gameSettings.mines);
+
 
   const remainingFlagsHandler = (val) => {
     if(remainingFlags === 0 && val === 0) {
@@ -56,6 +57,7 @@ const GameContainer = () => {
 
     onRevealBombs('SUPERMAN_MODE', false);
     onRevealBombs('GAME_OVER', false);
+    onFirstMove(false);
   };
 
   return (

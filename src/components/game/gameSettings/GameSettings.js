@@ -119,6 +119,7 @@ const GameSettings = () => {
 
     gameContext.onRevealBombs('SUPERMAN_MODE', false);
     gameContext.onRevealBombs('GAME_OVER', false);
+    gameContext.onFirstMove(false);
 
     gameContext.onStartNewGame({
       width,

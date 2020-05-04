@@ -8,7 +8,7 @@ import "./Board.scss";
 let minesFlaggedCounter;
 
 const Board = (props) => {
-  const { isGameLost } = useContext(GameContext);
+  const { isGameLost, isFirstMove, onFirstMove } = useContext(GameContext);
   const [board, setBoard] = useState([]);
   const { width, height, minesLocation } = props.gameSettings;
 
@@ -37,6 +37,10 @@ const Board = (props) => {
 
   // Handler cell click event
   const cellClickHandler = (row, col, isShiftPressed) => {
+    if (isFirstMove === false) {
+      onFirstMove(true);
+    }
+
     if (isGameLost !== true) {
       let updatedBoard = board;
 
@@ -95,9 +99,7 @@ const Board = (props) => {
     let updatedBoard = board;
 
     if (board[row][col].isMined === true) {
-      // You lost
-      props.onGameOver();
-      // have another state - cell.isGameOver - to show all bombs when game is over (--> can it be the same as supermanMode - differnt name?)
+      props.onGameOver(); // You lost
     }
     else {
       let minedNeighboursAmount = getMinedNeighboursAmount(row, col);

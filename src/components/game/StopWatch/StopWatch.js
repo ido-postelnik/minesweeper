@@ -1,43 +1,39 @@
 import React, { useState, useEffect, useContext } from "react";
 
+import Card from '../../uiElements/Card/Card';
 import { GameContext } from '../../../shared/context/game-context';
 import "./StopWatch.scss";
 
-const StopWatch = (props) => {
-  debugger;
-  const gameContext = useContext(GameContext);
+const StopWatch = () => {
+  const { isFirstMove, isGameLost } = useContext(GameContext);
+  const [seconds, setSeconds] = useState(0);
+
+  const secondsHandler = (val) => {
+    setSeconds(val);
+  }
 
   useEffect(() => {
-    debugger;
+    let interval = null;
 
-    const startWatch = () => {
-      debugger;
-      let s = seconds;
-      setInterval(() => {
-        s++;
-        startWatchSeconds(s);
+    if (isFirstMove) {
+      interval = setInterval(() => {
+        secondsHandler(seconds + 1);
       }, 1000);
-    };
+    } 
+    else if (isFirstMove === false && seconds !== 0) {
+      clearInterval(interval);
+      secondsHandler(0);
+    }
+    if (isGameLost === true) {
+      secondsHandler(seconds);
+      clearInterval(interval);
+    }
 
-    startWatch();
-  }, [gameContext]);
-
-  const [seconds, startWatchSeconds] = useState(0);
-
-  // const startWatch = () => {
-  //   debugger;
-  //   let s = seconds;
-  //   setInterval(() => {
-  //     s++;
-  //   });
-  //   startWatchSeconds(s);
-  // };
-
+    return () => clearInterval(interval);
+  }, [isFirstMove, isGameLost, seconds]);
 
   return (
-    <div className="stop-watch">
-      <p>seconds: {seconds}</p>
-    </div>
+    <Card label="Time" content={seconds}></Card>
   );
 };
 
