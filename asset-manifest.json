@@ -1,23 +1,26 @@
 {
   "files": {
-    "main.css": "/minesweeper/static/css/main.d1b05096.chunk.css",
-    "main.js": "/minesweeper/static/js/main.82aa5cf0.chunk.js",
-    "main.js.map": "/minesweeper/static/js/main.82aa5cf0.chunk.js.map",
+    "main.css": "/minesweeper/static/css/main.a9c34b27.chunk.css",
+    "main.js": "/minesweeper/static/js/main.061d5eb7.chunk.js",
+    "main.js.map": "/minesweeper/static/js/main.061d5eb7.chunk.js.map",
     "runtime-main.js": "/minesweeper/static/js/runtime-main.f415ae51.js",
     "runtime-main.js.map": "/minesweeper/static/js/runtime-main.f415ae51.js.map",
-    "static/js/2.6861a02c.chunk.js": "/minesweeper/static/js/2.6861a02c.chunk.js",
-    "static/js/2.6861a02c.chunk.js.map": "/minesweeper/static/js/2.6861a02c.chunk.js.map",
+    "static/js/2.6340c808.chunk.js": "/minesweeper/static/js/2.6340c808.chunk.js",
+    "static/js/2.6340c808.chunk.js.map": "/minesweeper/static/js/2.6340c808.chunk.js.map",
     "index.html": "/minesweeper/index.html",
-    "precache-manifest.9a693eac0aac1e24e156f5f0668818a8.js": "/minesweeper/precache-manifest.9a693eac0aac1e24e156f5f0668818a8.js",
+    "precache-manifest.18a79ac639f2bacaecc7db7d5f7b29c5.js": "/minesweeper/precache-manifest.18a79ac639f2bacaecc7db7d5f7b29c5.js",
     "service-worker.js": "/minesweeper/service-worker.js",
-    "static/css/main.d1b05096.chunk.css.map": "/minesweeper/static/css/main.d1b05096.chunk.css.map",
-    "static/js/2.6861a02c.chunk.js.LICENSE.txt": "/minesweeper/static/js/2.6861a02c.chunk.js.LICENSE.txt",
-    "static/media/logo.svg": "/minesweeper/static/media/logo.5d5d9eef.svg"
+    "static/css/main.a9c34b27.chunk.css.map": "/minesweeper/static/css/main.a9c34b27.chunk.css.map",
+    "static/js/2.6340c808.chunk.js.LICENSE.txt": "/minesweeper/static/js/2.6340c808.chunk.js.LICENSE.txt",
+    "static/media/flag.svg": "/minesweeper/static/media/flag.87f1c762.svg",
+    "static/media/logo.svg": "/minesweeper/static/media/logo.ffc12d8d.svg",
+    "static/media/mine.svg": "/minesweeper/static/media/mine.9638be07.svg",
+    "static/media/superman.png": "/minesweeper/static/media/superman.bc36d176.png"
   },
   "entrypoints": [
     "static/js/runtime-main.f415ae51.js",
-    "static/js/2.6861a02c.chunk.js",
-    "static/css/main.d1b05096.chunk.css",
-    "static/js/main.82aa5cf0.chunk.js"
+    "static/js/2.6340c808.chunk.js",
+    "static/css/main.a9c34b27.chunk.css",
+    "static/js/main.061d5eb7.chunk.js"
   ]
 }
