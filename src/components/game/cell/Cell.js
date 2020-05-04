@@ -16,7 +16,7 @@ const Cell = (props) => {
 
   return (
     <div className={`cell ${props.isRevealed && 'is-revealed'}`} onClick={cellEventHandler}>
-      {props.isFlagged ? <img src={FlagImage} alt="Flag" /> : props.minedNeighboursAmount > 0 && props.isRevealed ? <span className="mined-neighbours">{props.minedNeighboursAmount}</span> : ''}
+      {props.isFlagged ? <img src={FlagImage} alt="Flag" /> : props.minedNeighboursAmount > 0 && props.isRevealed ? <span className={`mined-neighbours mined-neighbours-${props.minedNeighboursAmount}`}>{props.minedNeighboursAmount}</span> : ''}
       {(isSupermanMode && props.isMined) || (isGameLost && props.isMined) ? <img src={MineImage} alt="Flag" /> : ''}
       {/* {props.isMined ? <img src={MineImage} alt="Flag" /> : ''} */}
       {/* {props.minedNeighboursAmount > 0 ? <span className="mined-neighbours">{props.minedNeighboursAmount}</span> : ''} */}
