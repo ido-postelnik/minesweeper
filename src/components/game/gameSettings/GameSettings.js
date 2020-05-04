@@ -117,7 +117,8 @@ const GameSettings = () => {
     let height = formState.inputs.height.value;
     let mines = formState.inputs.mines.value;
 
-    gameContext.onSupermanMode(false);
+    gameContext.onRevealBombs('SUPERMAN_MODE', false);
+    gameContext.onRevealBombs('GAME_OVER', false);
 
     gameContext.onStartNewGame({
       width,

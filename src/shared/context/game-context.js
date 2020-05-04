@@ -4,5 +4,6 @@ export const GameContext = createContext({
   gameSettings: {},
   onStartNewGame: () => {},
   isSupermanMode: false,
-  onSupermanMode: () => { }
+  isGameLost: false,
+  onRevealBombs: () => { }
 });

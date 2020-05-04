@@ -7,10 +7,10 @@ import SupermanImage from "../../../assets/images/superman.png";
 import "./Sidebar.scss";
 
 const Sidebar = () => {
-  const { isSupermanMode, onSupermanMode } = useContext(GameContext);
+  const { isSupermanMode, onRevealBombs } = useContext(GameContext);
 
   const supermanModeHandler = () => {
-    onSupermanMode(!isSupermanMode);
+    onRevealBombs('SUPERMAN_MODE', !isSupermanMode);
   };
 
   return (

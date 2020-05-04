@@ -8,7 +8,7 @@ import "./Board.scss";
 let minesFlaggedCounter;
 
 const Board = (props) => {
-  const {isSupermanMode} = useContext(GameContext);
+  const { isGameLost } = useContext(GameContext);
 
   const [board, setBoard] = useState([]);
 
@@ -39,103 +39,108 @@ const Board = (props) => {
   //#endregion
 
   const cellClickHandler = (row, col, isShiftPressed) => {
-    // logic for the entire board
-    let updatedBoard = board;
-    
-    if(isShiftPressed === true) {
-      let isFlagged = updatedBoard[row][col].isFlagged;
+    if (isGameLost !== true) {
+      let updatedBoard = board;
 
-      if (isFlagged === true) {
-        if (updatedBoard[row][col].isMined === true) {
-          minesFlaggedCounter = minesFlaggedCounter - 1;
-        }
+      if (isShiftPressed === true) {
+        let isFlagged = updatedBoard[row][col].isFlagged;
 
-        updatedBoard[row][col].isFlagged = !board[row][col].isFlagged;
-        props.onFlagEvent(-1);
-      }
-      else {
-        // Set cell with flag
-        if (props.remainingFlags === 0) {
-          props.onFlagEvent(0);
-        }
-        if (props.remainingFlags > 0 && updatedBoard[row][col].isRevealed === false) {
-          updatedBoard[row][col].isFlagged = !board[row][col].isFlagged;
-          props.onFlagEvent(1);
-        }
-
-        // Update minesFlaggedCounter
-        if (updatedBoard[row][col].isMined === true && board[row][col].isFlagged === true) {
-          minesFlaggedCounter = minesFlaggedCounter + 1;
-
-          if (minesFlaggedCounter === props.gameSettings.mines) {
-            props.onGameWin(); // We have a winner!
+        if (isFlagged === true) {
+          if (updatedBoard[row][col].isMined === true) {
+            minesFlaggedCounter = minesFlaggedCounter - 1;
           }
-        }
-      }
-    }
-    else {
-      // Do logic only if the cell is not flagged and it does not revealed yet
-      if (updatedBoard[row][col].isFlagged === false && updatedBoard[row][col].isRevealed === false) {
-        if (updatedBoard[row][col].isMined === true) {
-          // You lost
-          props.onGameOver();
-          // have another state - cell.isGameOver - to show all bombs when game is over (--> can it be the same as supermanMode - differnt name?)
+
+          updatedBoard[row][col].isFlagged = !board[row][col].isFlagged;
+          props.onFlagEvent(-1);
         }
         else {
-          let minedNeighboursAmount = getMinedNeighboursAmount(row, col);
-          if (updatedBoard[row][col].isFlagged === false) {
-            updatedBoard[row][col].isRevealed = true;
+          // Set cell with flag
+          if (props.remainingFlags === 0) {
+            props.onFlagEvent(0);
           }
-          // updatedBoard = setIsRevealed(updatedBoard, row, col);
-
-          if (minedNeighboursAmount > 0) {
-            updatedBoard[row][col].minedNeighboursAmount = minedNeighboursAmount;
-            
+          if (props.remainingFlags > 0 && updatedBoard[row][col].isRevealed === false) {
+            updatedBoard[row][col].isFlagged = !board[row][col].isFlagged;
+            props.onFlagEvent(1);
           }
-          else {
-            // No Neighbours with mine - let the magic begin! - based on BFS
-            let startingCell = updatedBoard[row][col];
-            // let visited = [];
-            let queue = [startingCell];
-            
-            while (queue.length > 0) {
-              const cell = queue.shift(); 
 
-              if (updatedBoard[cell.row][cell.col].isFlagged === false) {
-                updatedBoard[cell.row][cell.col].isRevealed = true; // visited
-              }
+          // Update minesFlaggedCounter
+          if (updatedBoard[row][col].isMined === true && board[row][col].isFlagged === true) {
+            minesFlaggedCounter = minesFlaggedCounter + 1;
 
-              let neighboursCoordinates = getNeighboursCoordinates(cell.row, cell.col, width, height);
-              let neighbourRow;
-              let neighbourCol;
-              let minedNeighboursAmount;
-
-              neighboursCoordinates.forEach(neighbour => {
-                neighbourRow = neighbour[0]; // row
-                neighbourCol = neighbour[1]; // col
-                minedNeighboursAmount = getMinedNeighboursAmount(neighbourRow, neighbourCol);
-
-                if (updatedBoard[neighbourRow][neighbourCol].isRevealed !== true && minedNeighboursAmount === 0 && updatedBoard[neighbourRow][neighbourCol].isFlagged === false) {
-                  queue.push(board[neighbourRow][neighbourCol]);
-                }
-                else {
-                  updatedBoard[neighbourRow][neighbourCol].minedNeighboursAmount = minedNeighboursAmount;
-                }
-
-                if(updatedBoard[neighbourRow][neighbourCol].isFlagged === false) {
-                  updatedBoard[neighbourRow][neighbourCol].isRevealed = true; // visited
-                } 
-
-              });
+            if (minesFlaggedCounter === props.gameSettings.mines) {
+              props.onGameWin(); // We have a winner!
             }
           }
-
-          props.onStepEvent(); // Increase steps counter
         }
       }
+      else {
+        // Do logic only if the cell is not flagged and it does not revealed yet
+        if (updatedBoard[row][col].isFlagged === false && updatedBoard[row][col].isRevealed === false) {
+          if (updatedBoard[row][col].isMined === true) {
+            // You lost
+            props.onGameOver();
+            // have another state - cell.isGameOver - to show all bombs when game is over (--> can it be the same as supermanMode - differnt name?)
+          }
+          else {
+            let minedNeighboursAmount = getMinedNeighboursAmount(row, col);
+            if (updatedBoard[row][col].isFlagged === false) {
+              updatedBoard[row][col].isRevealed = true;
+            }
+            // updatedBoard = setIsRevealed(updatedBoard, row, col);
+
+            if (minedNeighboursAmount > 0) {
+              updatedBoard[row][col].minedNeighboursAmount = minedNeighboursAmount;
+
+            }
+            else {
+              // No Neighbours with mine - let the magic begin! - based on BFS
+              let startingCell = updatedBoard[row][col];
+              // let visited = [];
+              let queue = [startingCell];
+
+              while (queue.length > 0) {
+                const cell = queue.shift();
+
+                if (updatedBoard[cell.row][cell.col].isFlagged === false) {
+                  updatedBoard[cell.row][cell.col].isRevealed = true; // visited
+                }
+
+                let neighboursCoordinates = getNeighboursCoordinates(cell.row, cell.col, width, height);
+                let neighbourRow;
+                let neighbourCol;
+                let minedNeighboursAmount;
+
+                neighboursCoordinates.forEach(neighbour => {
+                  neighbourRow = neighbour[0]; // row
+                  neighbourCol = neighbour[1]; // col
+                  minedNeighboursAmount = getMinedNeighboursAmount(neighbourRow, neighbourCol);
+
+                  if (updatedBoard[neighbourRow][neighbourCol].isRevealed !== true && minedNeighboursAmount === 0 && updatedBoard[neighbourRow][neighbourCol].isFlagged === false) {
+                    queue.push(board[neighbourRow][neighbourCol]);
+                  }
+                  else {
+                    updatedBoard[neighbourRow][neighbourCol].minedNeighboursAmount = minedNeighboursAmount;
+                  }
+
+                  if (updatedBoard[neighbourRow][neighbourCol].isFlagged === false) {
+                    updatedBoard[neighbourRow][neighbourCol].isRevealed = true; // visited
+                  }
+
+                });
+              }
+            }
+
+            props.onStepEvent(); // Increase steps counter
+          }
+        }
+      }
+
+      setBoard(updatedBoard);
+    }
+    else {
+      props.onGameOver();
     }
 
-    setBoard(updatedBoard);
   };
 
   const getMinedNeighboursAmount = (row, col) => {
@@ -176,7 +181,6 @@ const Board = (props) => {
                     isRevealed={cell.isRevealed}
                     minedNeighboursAmount={cell.minedNeighboursAmount}
                     onCellEvent={cellClickHandler}
-                    isSupermanMode={isSupermanMode}
                   ></Cell>
                 );
               })}

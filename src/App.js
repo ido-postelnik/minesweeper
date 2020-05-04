@@ -21,9 +21,19 @@ function App() {
   }, []);
 
   const [isSumermanMode, setIsSupermanMode] = useState(false);
+  const [isGameLost, setIsLost] = useState(false);
 
-  const onSupermanMode = useCallback((mode) => {
-    setIsSupermanMode(mode);
+  const onRevealBombs = useCallback((action, shouldReveal) => {
+    switch (action) {
+      case 'GAME_OVER':
+        setIsLost(shouldReveal);
+        break;
+      case 'SUPERMAN_MODE':
+        setIsSupermanMode(shouldReveal);
+        break;
+      default:
+        break;
+    }
   }, []);
 
   return (
@@ -32,7 +42,8 @@ function App() {
         gameSettings: gameSettings,
         onStartNewGame: onStartNewGame,
         isSupermanMode: isSumermanMode,
-        onSupermanMode: onSupermanMode
+        isGameLost: isGameLost,
+        onRevealBombs: onRevealBombs
       }}
     >
       <div className="app">

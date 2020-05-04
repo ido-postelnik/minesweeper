@@ -7,15 +7,15 @@ import { setMinesLocation } from "../../../shared/utils/utils";
 import "./GameContainer.scss";
 
 const GameContainer = () => {
-  const gameContext = useContext(GameContext);
+  const { gameSettings, onRevealBombs, onStartNewGame} = useContext(GameContext);
 
   useEffect(() => {
     setSteps(0);
-    setRemainingFlags(gameContext.gameSettings.mines)
-  }, [gameContext.gameSettings])
+    setRemainingFlags(gameSettings.mines)
+  }, [gameSettings])
 
   const [steps, setSteps] = useState(0);
-  const [remainingFlags, setRemainingFlags] = useState(gameContext.gameSettings.mines);
+  const [remainingFlags, setRemainingFlags] = useState(gameSettings.mines);
 
   const remainingFlagsHandler = (val) => {
     if(remainingFlags === 0 && val === 0) {
@@ -33,7 +33,7 @@ const GameContainer = () => {
   const lossHandler = () => {
     alert(`😓 Game over.. Let's try again!`);
 
-    // startNewGame();
+    onRevealBombs('GAME_OVER', true);
   };
 
   const gameWinHandler = () => {
@@ -43,26 +43,26 @@ const GameContainer = () => {
   };
 
   const startNewGame = () => {
-    debugger;
-    let width = gameContext.gameSettings.width;
-    let height = gameContext.gameSettings.height;
-    let mines = gameContext.gameSettings.mines;
+    let width = gameSettings.width;
+    let height = gameSettings.height;
+    let mines = gameSettings.mines;
 
-    gameContext.onStartNewGame({
+    onStartNewGame({
       width,
       height,
       mines,
       minesLocation: setMinesLocation(width, height, mines),
     });
 
-    gameContext.onSupermanMode(false);
+    onRevealBombs('SUPERMAN_MODE', false);
+    onRevealBombs('GAME_OVER', false);
   };
 
   return (
     <div className="game-container">
       <ScorePanel className="score-panel" steps={steps} remainingFlags={remainingFlags}></ScorePanel>
       <Board 
-        gameSettings={gameContext.gameSettings} 
+        gameSettings={gameSettings} 
         onStepEvent={stepsHandler} 
         onFlagEvent={remainingFlagsHandler} 
         onGameOver={lossHandler}
