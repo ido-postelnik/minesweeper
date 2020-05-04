@@ -21,6 +21,24 @@ const formReducer = (state, action) => {
     case "INPUT_CHANGE":
       let formIsValid = true;
 
+      // Calculate max mines number
+      if (action.inputId === 'width') {
+        maxMines = action.value * state.inputs.height.value;
+      }
+      else if (action.inputId === 'height') {
+        maxMines = action.value * state.inputs.width.value;
+      }
+
+      // Check mines number validity accroding to changes in 'width' and 'height'
+      if ((action.inputId === 'width' || action.inputId === 'height')) {
+        if (state.inputs.mines.value <= maxMines && state.inputs.mines.value >= MIN_MINES_AMOUNT){
+          state.inputs['mines'].isValid = true;
+        }
+        else {
+          state.inputs['mines'].isValid = false;
+        }
+      }
+
       // inputId => width / height / mines
       for (const inputId in state.inputs) {
         if (!state.inputs[inputId]) {
@@ -31,14 +49,6 @@ const formReducer = (state, action) => {
         } else {
           formIsValid = formIsValid && state.inputs[inputId].isValid;
         }
-      }
-
-      // Calculate max mines number
-      if (action.inputId === 'width') {
-        maxMines = action.value * state.inputs.height.value;
-      }
-      else if (action.inputId === 'height') {
-        maxMines = action.value * state.inputs.width.value;
       }
 
       return {
@@ -95,13 +105,13 @@ const GameSettings = () => {
 
     switch (id){
       case 'width':
-        retVal = value > MIN_BOARD_WIDTH && value <= MAX_BOARD_WIDTH;
+        retVal = value >= MIN_BOARD_WIDTH && value <= MAX_BOARD_WIDTH;
         break;
       case 'height':
-        retVal = value > MIN_BOARD_WIDTH && value <= MAX_BOARD_WIDTH;
+        retVal = value >= MIN_BOARD_WIDTH && value <= MAX_BOARD_WIDTH;
         break;
       case 'mines':
-        retVal = value > MIN_MINES_AMOUNT && value <= maxMines;
+        retVal = value >= MIN_MINES_AMOUNT && value <= maxMines;
         break;
       default:
         return 0;
@@ -139,12 +149,11 @@ const GameSettings = () => {
             id="width"
             type="number"
             label="Board width"
-            errorText={`Please enter a number between ${MIN_BOARD_WIDTH} to ${MAX_BOARD_WIDTH}`}
             onInput={inputHandler}
-            initialValue={formState.inputs.width.value}
+            value={formState.inputs.width.value}
           />
           {!formState.inputs.width.isValid && (
-            <p className="error-text m-y-5">{`Please enter a number between ${MIN_BOARD_WIDTH} to ${MAX_BOARD_WIDTH}`}</p>
+            <p className="error-text m-y-5">{`Please enter a number between ${MIN_BOARD_WIDTH} and ${MAX_BOARD_WIDTH}`}</p>
           )}
         </div>
 
@@ -154,12 +163,11 @@ const GameSettings = () => {
             id="height"
             type="number"
             label="Board height"
-            errorText={`Please enter a number between ${MIN_BOARD_WIDTH} to ${MAX_BOARD_WIDTH}`}
             onInput={inputHandler}
-            initialValue={formState.inputs.height.value}
+            value={formState.inputs.height.value}
           />
           {!formState.inputs.height.isValid && (
-            <p className="error-text m-t-5">{`Please enter a number between ${MIN_BOARD_HEIGHT} to ${MAX_BOARD_HEIGHT}`}</p>
+            <p className="error-text m-t-5">{`Please enter a number between ${MIN_BOARD_HEIGHT} and ${MAX_BOARD_HEIGHT}`}</p>
           )}
         </div>
 
@@ -169,19 +177,18 @@ const GameSettings = () => {
             id="mines"
             type="number"
             label="Mines number"
-            errorText={`Please enter a number between 1 to ${maxMines}`}
             onInput={inputHandler}
-            initialValue={formState.inputs.mines.value}
+            value={formState.inputs.mines.value}
           />
-          {!formState.inputs.mines.isValid && (
-            <p className="error-text m-t-5">{`Please enter a number between ${MIN_MINES_AMOUNT} to ${maxMines}`}</p>
+          {!formState.inputs.mines.isValid && formState.inputs.width.isValid && formState.inputs.height.isValid && (
+            <p className="error-text m-t-5">{maxMines > 1 ? `Please enter a number between ${MIN_MINES_AMOUNT} and ${maxMines}` : maxMines === 0 ? '' : `Only 1 mine is possible`}</p>
           )}
         </div>
 
 
         {/* Submit */}
         <Button
-          className="success m-auto m-t-5"
+          className="success m-t-5"
           type="submit"
           disabled={!formState.isValid}
         >

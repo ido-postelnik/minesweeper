@@ -20,11 +20,11 @@ const Sidebar = () => {
         <h1 className="m-y-0">Minesweeper</h1>
       </section>
       <GameSettings className="game-settings"></GameSettings>
-      <section className="more-actions p-b-20">
-        <p className="m-y-10">Need a hint ?</p>
+      <section className="more-actions p-b-10">
+        <p className="m-y-10">Need some help?</p>
         <div className="superman-container">
           <img src={SupermanImage} alt="superman" className="superman-button" onClick={supermanModeHandler}/>
-          {isSupermanMode && <p className="is-superman-mode m-y-0">ON</p>}
+          <p className={`is-superman-mode m-y-0 ${isSupermanMode ? 'is-superman-mode-on' : ''}`}>{isSupermanMode ? 'On' : 'Off'}</p>
         </div>
 
       </section>

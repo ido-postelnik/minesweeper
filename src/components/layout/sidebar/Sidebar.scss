@@ -43,7 +43,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: $dark-blue;
+    color: $dark-grey;
 
     .superman-container{
       height: 100px;
@@ -53,19 +53,19 @@
         cursor: pointer;
         height: 80%;
         transition: height 0.2s ease;
-
-        &:hover{
-          height: 83%;
-        }
       }
 
       .is-superman-mode{
         position: absolute;
-        top: 45px;
+        top: 35px;
         right: 0;
         font-weight: 500;
-        font-size: 2rem;
+        font-size: 1rem;
         color: $dark-grey;
+
+        &-on{
+          color: $dark-green;
+        }
       }
     }
   }

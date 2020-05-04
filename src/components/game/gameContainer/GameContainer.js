@@ -32,7 +32,7 @@ const GameContainer = () => {
   };
 
   const lossHandler = () => {
-    alert(`😓 Game over.. Let's try again!`);
+    alert(`Game over... 😓`);
 
     onRevealBombs('GAME_OVER', true);
   };

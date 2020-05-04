@@ -33,7 +33,7 @@ const StopWatch = () => {
   }, [isFirstMove, isGameLost, seconds]);
 
   return (
-    <Card label="Time" content={seconds}></Card>
+    <Card label="Time (s)" content={seconds}></Card>
   );
 };
 

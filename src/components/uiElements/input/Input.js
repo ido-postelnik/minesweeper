@@ -23,7 +23,7 @@ const inputReducer = (state, action) => {
 
 const Input = (props) => {
   const [inputState, dispatch] = useReducer(inputReducer, {
-    value: props.initialValue || '',
+    value: props.value || 0,
     isTouched: false
   });
 
@@ -36,12 +36,7 @@ const Input = (props) => {
   }, [id, value, onInput]);
 
   const changeHandler = (event) => {
-    // Dispatching the action
-
-    let parsedValue =
-      props.type === 'number' && event.target.value > 0
-        ? parseInt(event.target.value)
-        : event.target.value;
+    let parsedValue = props.type === 'number' && event.target.value > 0 ? parseInt(event.target.value) : '';
 
     dispatch({
       type: "CHANGE",
